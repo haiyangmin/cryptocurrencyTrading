@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
-import Table from 'Components/Table';
-import { addCryptocurrencyToUser, removeCryptocurrencyFromUser } from '../../App/actions';
+import Table from './Table';
+import { getLatestCryptocurrency, addCryptocurrencyToUser } from '../../App/actions';
 import appLayout from 'SharedStyles/appLayout';
 import styles from './styles.css';
 
@@ -54,9 +54,17 @@ class CryptocurrencyDisplay extends Component {
     super(props);
   }
 
+  componentDidMount() {
+    const {
+      getLatestCryptocurrency,
+    } = this.props;
+
+    // get latest cryptocurrency price
+    getLatestCryptocurrency();
+
+  }
+
   render() {
-    console.log(this.props.app);
-    console.log(this.props.user);
     const {
       cryptocurrencies,
       fetchingCryptocurrencies,
@@ -89,11 +97,11 @@ class CryptocurrencyDisplay extends Component {
       return userCryptocurrenciesData;
     }
 
-    // if (fetchingCryptocurrencies || fetchingUser) {
-    //   return (
-    //     <div className={styles.loadingWrapper}>Loading...</div>
-    //   );
-    // }
+    if (fetchingCryptocurrencies || fetchingUser) {
+      return (
+        <div className={styles.loadingWrapper}>Loading...</div>
+      );
+    }
 
     if (updatingUserCryptocurrecy) {
       return (
@@ -101,14 +109,14 @@ class CryptocurrencyDisplay extends Component {
       );
     }
 
-    if (mockData.length > 0) {
-      // const cryptocurrencies = getCryptocurrencyDataByUser(cryptocurrencies,userCryptocurrencies);
+    if (userCryptocurrencies.length > 0) {
+      const cryptocurrencies = getCryptocurrencyDataByUser(cryptocurrencies,userCryptocurrencies);
       return (
         <div className={classnames(appLayout.constraintWidth, styles.contentArea)}>
           <div className={appLayout.primaryContent}>
             <Table
-              // cryptoCurrencies={cryptocurrencies}
-              cryptoCurrencies={mockData}
+              cryptoCurrencies={cryptocurrencies}
+              // cryptoCurrencies={mockData}
             />
           </div>
         </div>
@@ -125,6 +133,6 @@ export default connect(
   }; },
   (dispatch) => { return {
     addCryptocurrencyToUser: (username) => { dispatch(addCryptocurrencyToUser(username)); },
-    removeCryptocurrencyFromUser: (username) => { dispatch(addCryptocurrencyToUser(username)); },
+    getLatestCryptocurrency: () => { dispatch(getLatestCryptocurrency()); },
   };}
 )(CryptocurrencyDisplay);

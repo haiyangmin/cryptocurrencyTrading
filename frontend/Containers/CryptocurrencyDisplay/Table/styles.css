@@ -1,0 +1,53 @@
+.table {
+  display: table;
+  border: 1px solid #ddd;
+  text-align: left;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.thead {
+  display: table-header-group;
+  vertical-align: middle;
+  border-color: inherit
+}
+
+.tbody {
+  display: table-row-group;
+  vertical-align: middle;
+  border-color: inherit
+}
+
+.tfoot {
+  display: table-footer-group;
+  vertical-align: middle;
+  border-color: inherit
+}
+
+.tr {
+  display: table-row;
+  vertical-align: inherit;
+  border-color: inherit
+}
+
+.th {
+  font-weight: bold;
+  padding: 15px;
+}
+
+.td {
+  padding: 15px;
+}
+
+.caption {
+  display: table-caption;
+  text-align: -webkit-center
+}
+
+.loadingWrapper {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

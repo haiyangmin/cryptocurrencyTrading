@@ -5,51 +5,60 @@ import { Helmet } from 'react-helmet';
 import Header from 'Containers/Header';
 import Footer from 'Components/Footer';
 import CryptocurrencyDisplay from 'Containers/CryptocurrencyDisplay';
+import appLayout from 'SharedStyles/appLayout.css';
+import styles from './styles.css';
 
-import { getUser, getLatestCryptocurrency } from './actions';
+import { getUser } from './actions';
 
 class AppContainer extends Component {
-  // componentDidMount() {
-  //   const {
-  //     getUser,
-  //     getLatestCryptocurrency,
-  //   } = this.props;
-  //
-  //   getUser();
-  //   getLatestCryptocurrency();
-  // }
+  componentDidMount() {
+    const {
+      getUser,
+    } = this.props;
 
-  // componentDidUpdate() {
-  //   const {
-  //     getUser,
-  //     getLatestCryptocurrency,
-  //   } = this.props;
-  //
-  //   getUser();
-  //   getLatestCryptocurrency();
-  // }
+    // check for authenticated user
+    getUser();
 
+  }
+
+  componentDidUpdate() {
+
+  }
 
   render() {
-    return (
-      <div>
-        <Helmet><title>Cryptocurrency Price</title></Helmet>
-        <Header />
-        <CryptocurrencyDisplay />
-        {this.props.children}
-        <Footer />
-      </div>
-    );
+    const { username } = this.props;
+
+    // render only if we get the user
+    if (username) {
+      return (
+        <div>
+          <Helmet><title>Cryptocurrency Price</title></Helmet>
+          <Header />
+          <CryptocurrencyDisplay />
+          {/*{this.props.children}*/}
+          <Footer />
+        </div>
+      );
+    }
+
+    else {
+      return (
+        <div>
+          <Helmet><title>Cryptocurrency Price</title></Helmet>
+          <Header />
+          <div className={styles.loadingWrapper}>Please sign in...</div>
+          <Footer />
+        </div>
+      );
+    }
   }
 }
 
 export default connect(
   (state) => { return {
-    app: state.app,
-    user: state.user,
+    username: state.user.username,
   }; },
   (dispatch) => { return {
     getUser: () => { dispatch(getUser()); },
-    getLatestCryptocurrency: () => { dispatch(getLatestCryptocurrency()); },
-  };}
+  }; }
 )(AppContainer);

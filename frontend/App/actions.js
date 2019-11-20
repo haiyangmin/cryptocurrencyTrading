@@ -44,11 +44,11 @@ export const getLatestCryptocurrency = () => {
 };
 
 
-export const addCryptocurrencyToUser = (username) => {
+export const addCryptocurrencyToUser = (username,cryptocurrencies) => {
   return (dispatch, getState) => {
     dispatch({ type: UPDATE_USER_CRYPTOCURRENCY });
 
-    userAddCryptocurrency(username).then(
+    userAddCryptocurrency(username,cryptocurrencies).then(
       data => dispatch({ type: UPDATE_USER_CRYPTOCURRENCY_SUCCESS, payload: data.data }),
       error => dispatch({ type: UPDATE_USER_CRYPTOCURRENCY_FAILURE})
     );
@@ -59,7 +59,7 @@ export const removeCryptocurrencyFromUser = (username) => {
   return (dispatch, getState) => {
     dispatch({ type: UPDATE_USER_CRYPTOCURRENCY });
 
-    userRemoveCryptocurrency(username).then(
+    userRemoveCryptocurrency(username,cryptocurrencies).then(
       data => dispatch({ type: UPDATE_USER_CRYPTOCURRENCY_SUCCESS, payload: data.data }),
       error => dispatch({ type: UPDATE_USER_CRYPTOCURRENCY_FAILURE})
     );
