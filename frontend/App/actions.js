@@ -55,7 +55,7 @@ export const addCryptocurrencyToUser = (username,cryptocurrencies) => {
   };
 };
 
-export const removeCryptocurrencyFromUser = (username) => {
+export const removeCryptocurrencyFromUser = (username,cryptocurrencies) => {
   return (dispatch, getState) => {
     dispatch({ type: UPDATE_USER_CRYPTOCURRENCY });
 

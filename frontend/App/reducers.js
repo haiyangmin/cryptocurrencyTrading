@@ -11,7 +11,7 @@ import {
 } from './constants';
 
 const initialState = {
-  fetchingCryptocurrencies: false,
+  fetchingCryptocurrencies: true,
   cryptocurrencies: {},
   appError: false,
 };
@@ -24,11 +24,18 @@ export const appReducer = (state = initialState, action) => {
       });
 
     case FETCHING_CRYPTOCURRENCY_SUCCESS:
-      return Object.assign({}, state, {
-        cryptocurrencies: action.payload,
-        fetchingCryptocurrencies: false,
-        error: false,
-      });
+    console.log(action.payload.cryptocurrencies);
+       return {
+          cryptocurrencies: action.payload.cryptocurrencies,
+          fetchingCryptocurrencies: false,
+          error: false,
+        };
+
+      // return Object.assign({}, state, {
+      //   cryptocurrencies: action.payload.cryptocurrencies,
+      //   fetchingCryptocurrencies: false,
+      //   error: false,
+      // });
 
     case FETCHING_CRYPTOCURRENCY_FAILURE:
       return Object.assign({}, state, {
@@ -43,7 +50,7 @@ export const appReducer = (state = initialState, action) => {
 
 
 const initialUserState = {
-  fetchingUser: true,
+  fetchingUser: false,
   authenticated: false,
   error: null,
   _id: null,
@@ -63,42 +70,46 @@ export const userReducer = (state = initialUserState, action) => {
   switch (action.type) {
     case START_FETCHING_USER:
       return Object.assign({}, state, {
-        fetchUser: true,
+        fetchingUser: true,
+        authenticated: false,
       });
 
     case FETCHING_USER_SUCCESS:
-      const {
-        _id,
-        name,
-        username,
-        avatarUrl,
-        email,
-        githubBio,
-        githubUrl,
-        githubLocation,
-        role,
-        userCryptocurrencies,
-      } = action.payload;
+      // const {
+      //   _id,
+      //   name,
+      //   username,
+      //   avatarUrl,
+      //   email,
+      //   githubBio,
+      //   githubUrl,
+      //   githubLocation,
+      //   role,
+      //   userCryptocurrencies,
+      //   updatingUserCryptocurrecy,
+      // } = action.payload;
 
-      return Object.assign({}, state), {
+      return Object.assign({}, state, {
         fetchingUser: false,
         authenticated: true,
         error: null,
-        _id,
-        name,
-        username,
-        avatarUrl,
-        email,
-        githubBio,
-        githubUrl,
-        githubLocation,
-        userCryptocurrencies,
-        role,
-      };
+        _id: action.payload._id,
+        name: action.payload.name,
+        username: action.payload.username,
+        avatarUrl: action.payload.avatarUrl,
+        email: action.payload.email,
+        githubBio: action.payload.github.bio,
+        githubUrl: action.payload.github.url,
+        githubLocation: action.payload.github.location,
+        role: action.payload.role,
+        userCryptocurrencies: action.payload.cryptocurrencies,
+        updatingUserCryptocurrecy: false,
+      });
 
     case FETCHING_USER_FAILURE:
       return Object.assign({}, initialUserState, {
         fetchingUser: false,
+        authenticated: false,
         error: 'Unable to fetch user!',
       });
 

@@ -65,6 +65,10 @@ class CryptocurrencyDisplay extends Component {
   }
 
   render() {
+
+    console.log(this.props)
+    console.log(this.prop)
+
     const {
       cryptocurrencies,
       fetchingCryptocurrencies,
@@ -109,8 +113,8 @@ class CryptocurrencyDisplay extends Component {
       );
     }
 
-    if (userCryptocurrencies.length > 0) {
-      const cryptocurrencies = getCryptocurrencyDataByUser(cryptocurrencies,userCryptocurrencies);
+    if (!fetchingCryptocurrencies) {
+      const cryptocurrencies = getCryptocurrencyDataByUser(this.props.app.cryptocurrencies,userCryptocurrencies);
       return (
         <div className={classnames(appLayout.constraintWidth, styles.contentArea)}>
           <div className={appLayout.primaryContent}>
@@ -132,7 +136,7 @@ export default connect(
     user: state.user,
   }; },
   (dispatch) => { return {
-    addCryptocurrencyToUser: (username) => { dispatch(addCryptocurrencyToUser(username)); },
+    addCryptocurrencyToUser: (username,cryptocurrencies) => { dispatch(addCryptocurrencyToUser(username,cryptocurrencies)); },
     getLatestCryptocurrency: () => { dispatch(getLatestCryptocurrency()); },
   };}
 )(CryptocurrencyDisplay);

@@ -26,10 +26,22 @@ class AppContainer extends Component {
   }
 
   render() {
-    const { username } = this.props;
+   
+    console.log(this.props);
+    // const { username } = this.props;
+    const {
+      userCryptocurrencies,
+      fetchingUser,
+      updatingUserCryptocurrecy,
+      authenticated,
+      error,
+      username,
+    } = this.props.user;
+
+    console.log(username)
 
     // render only if we get the user
-    if (username) {
+    if (authenticated) {
       return (
         <div>
           <Helmet><title>Cryptocurrency Price</title></Helmet>
@@ -56,7 +68,7 @@ class AppContainer extends Component {
 
 export default connect(
   (state) => { return {
-    username: state.user.username,
+    user: state.user,
   }; },
   (dispatch) => { return {
     getUser: () => { dispatch(getUser()); },

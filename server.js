@@ -50,7 +50,6 @@ axios.all([getBitcoinPrice,
 ])
 .then(
   axios.spread(function (bitcoinPrice, bitcoinCashPrice,ethereumPrice,litecoinPrice,XRPPrice) {
-    console.log(bitcoinPrice);
   const cryptocurrency = {
     bitcoin: {
       name: 'BTC',
