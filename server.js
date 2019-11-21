@@ -3,11 +3,11 @@ const path = require('path');
 const express = require('express');
 const axios = require('axios');
 const mongoose = require('mongoose');
-const options = {
-  socketTimeoutMS: 300000,
-  keepAlive: true,
-  reconnectTries: 30000,
-};
+// const options = {
+//   socketTimeoutMS: 300000,
+//   keepAlive: true,
+//   reconnectTries: 30000,
+// };
 const passport = require('passport');
 
 // server configurations
@@ -19,16 +19,33 @@ const createCryptocurrency = require('./backend/entities/cryptocurrency/controll
 // mongoose.connect(serverConfigs.DBURL,options);
 
 
-mongoose.connect(serverConfigs.DBURL,
-  options,function(err){
-    if(err){
-      console.log('Some problem with the connection ' +err);
-    }
-    else {
-      console.log('The Mongoose connection is ready');
-    }
-  });
+// mongoose.connect(serverConfigs.DBURL,
+//   options,function(err){
+//     if(err){
+//       console.log('Some problem with the connection ' +err);
+//     }
+//     else {
+//       console.log('The Mongoose connection is ready');
+//     }
+//   });
 
+const options = {
+  useMongoClient: true,
+  reconnectTries: 1000,
+  reconnectInterval: 500,
+  poolSize: 10,
+  bufferMaxEntries: 0,
+};
+
+mongoose.connect(serverConfigs.DBURL,options)
+ .then(
+    () => {
+      console.log('connected to mongodb');
+      },
+    (err) => {
+      console.log('some problem with the connection to mongodb' +err);
+    }
+  );
 
 // initialize express
 const app = express();
