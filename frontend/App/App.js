@@ -12,33 +12,23 @@ import { getUser } from './actions';
 
 class AppContainer extends Component {
   componentDidMount() {
-    const {
-      getUser,
-    } = this.props;
-
     // check for authenticated user
-    getUser();
+    this.props.getUser();
 
+    this.interval = setInterval(() => {
+      this.props.getUser();
+    }, 300000);
   }
 
-  componentDidUpdate() {
-
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   render() {
-   
     console.log(this.props);
-    // const { username } = this.props;
     const {
-      userCryptocurrencies,
-      fetchingUser,
-      updatingUserCryptocurrecy,
       authenticated,
-      error,
-      username,
     } = this.props.user;
-
-    console.log(username)
 
     // render only if we get the user
     if (authenticated) {

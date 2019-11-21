@@ -11,10 +11,6 @@ class AddCryptocurrencyContainer extends React.Component {
 
   render() {
     const {
-      addCryptocurrencyToUser,
-    } = this.props;
-
-    const {
       username,
       userCryptocurrencies,
     } = this.props.user;
@@ -35,7 +31,7 @@ class AddCryptocurrencyContainer extends React.Component {
           if (!input.value.trim()) {
             return;
           }
-          addCryptocurrencyToUser(username,input.value);
+          props.addCryptocurrencyToUser(username,input.value);
           input.value = '';
         }}>
           <input ref={node => input = node} />
@@ -53,6 +49,6 @@ export default connect(
     user: state.user,
   }; },
   (dispatch) => { return {
-    addCryptocurrencyToUser: (username,crytocurrencies) => { dispatch(addCryptocurrencyToUser(username,crytocurrencies)); },
+    addCryptocurrencyToUser: (username,cryptocurrencies) => { dispatch(addCryptocurrencyToUser(username,cryptocurrencies)); },
   };}
 )(AddCryptocurrencyContainer);

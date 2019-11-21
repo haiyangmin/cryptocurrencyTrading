@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import Table from './Table';
-import { getLatestCryptocurrency, addCryptocurrencyToUser } from '../../App/actions';
+import AddCryptocurrencyContainer from './AddCryptocurrencyContainer';
+import { getLatestCryptocurrency } from '../../App/actions';
 import appLayout from 'SharedStyles/appLayout';
 import styles from './styles.css';
 
@@ -55,19 +56,14 @@ class CryptocurrencyDisplay extends Component {
   }
 
   componentDidMount() {
-    const {
-      getLatestCryptocurrency,
-    } = this.props;
-
     // get latest cryptocurrency price
-    getLatestCryptocurrency();
-
+    this.props.getLatestCryptocurrency();
   }
 
   render() {
 
-    console.log(this.props)
-    console.log(this.prop)
+    console.log(this.props);
+    console.log(this.prop);
 
     const {
       cryptocurrencies,
@@ -78,6 +74,7 @@ class CryptocurrencyDisplay extends Component {
     const {
       userCryptocurrencies,
       fetchingUser,
+      authenticated,
       updatingUserCryptocurrecy,
       error,
     } = this.props.user;
@@ -113,7 +110,7 @@ class CryptocurrencyDisplay extends Component {
       );
     }
 
-    if (!fetchingCryptocurrencies) {
+    if (!fetchingCryptocurrencies && authenticated) {
       const cryptocurrencies = getCryptocurrencyDataByUser(this.props.app.cryptocurrencies,userCryptocurrencies);
       return (
         <div className={classnames(appLayout.constraintWidth, styles.contentArea)}>
@@ -122,6 +119,7 @@ class CryptocurrencyDisplay extends Component {
               cryptoCurrencies={cryptocurrencies}
               // cryptoCurrencies={mockData}
             />
+            <AddCryptocurrencyContainer />
           </div>
         </div>
       );
@@ -136,7 +134,6 @@ export default connect(
     user: state.user,
   }; },
   (dispatch) => { return {
-    addCryptocurrencyToUser: (username,cryptocurrencies) => { dispatch(addCryptocurrencyToUser(username,cryptocurrencies)); },
     getLatestCryptocurrency: () => { dispatch(getLatestCryptocurrency()); },
   };}
 )(CryptocurrencyDisplay);

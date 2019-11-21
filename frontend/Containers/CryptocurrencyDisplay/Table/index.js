@@ -4,6 +4,9 @@ import styles from './styles';
 import { removeCryptocurrencyFromUser } from '../../../App/actions';
 
 class Table extends Component {
+  constructor(props) {
+    super(props);
+  }
 
   render() {
     const {
@@ -26,7 +29,7 @@ class Table extends Component {
             <td>{ data.circulatingSupply }</td>
             <td>{ data.allTimeHigh }</td>
             <td>
-              <button onClick={ removeCryptocurrencyFromUser(username, data.name) }>
+              <button onClick={ props.removeCryptocurrencyFromUser(username, data.name) }>
                 Remove
               </button>
             </td>
