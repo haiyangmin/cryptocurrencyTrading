@@ -110,7 +110,7 @@ class CryptocurrencyDisplay extends Component {
       );
     }
 
-    if (!fetchingCryptocurrencies && authenticated) {
+    if ((!fetchingCryptocurrencies || !updatingUserCryptocurrecy) && authenticated) {
       const cryptocurrencies = getCryptocurrencyDataByUser(this.props.app.cryptocurrencies,userCryptocurrencies);
       return (
         <div className={classnames(appLayout.constraintWidth, styles.contentArea)}>

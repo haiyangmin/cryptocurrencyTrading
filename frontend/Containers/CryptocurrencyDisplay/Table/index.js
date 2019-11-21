@@ -3,12 +3,21 @@ import { connect } from 'react-redux';
 import styles from './styles';
 import { removeCryptocurrencyFromUser } from '../../../App/actions';
 
+const cryptocurrencyMap = {
+  BTC: 'bitcoin',
+  BCH: 'bitcoinCash',
+  ETH: 'ethereum',
+  LTC: 'litecoin',
+  XRP: 'xrp'
+}
+
 class Table extends Component {
   constructor(props) {
     super(props);
   }
 
   render() {
+    console.log(this.props)
     const {
       removeCryptocurrencyFromUser,
       cryptoCurrencies,
@@ -16,6 +25,7 @@ class Table extends Component {
 
     const {
       username,
+      userCryptocurrencies,
     } = this.props.user;
 
     function renderResultRows(data, removeCryptocurrencyFromUser,username) {
@@ -29,7 +39,10 @@ class Table extends Component {
             <td>{ data.circulatingSupply }</td>
             <td>{ data.allTimeHigh }</td>
             <td>
-              <button onClick={ props.removeCryptocurrencyFromUser(username, data.name) }>
+              <button onClick={e => {
+          e.preventDefault();
+          removeCryptocurrencyFromUser(username,cryptocurrencyMap[data.name]);
+        }}>
                 Remove
               </button>
             </td>
@@ -37,6 +50,12 @@ class Table extends Component {
         );
       });
     }
+
+    function getUserAddedCryptocurrencies(userCryptocurrencies,cryptocurrencies) {
+      return cryptocurrencies.filter((_) => userCryptocurrencies.includes(cryptocurrencyMap[_.name]))
+    }
+
+    const UserAddedCryptocurrencies = getUserAddedCryptocurrencies(userCryptocurrencies,cryptoCurrencies);
 
     return (
       <div>
@@ -53,7 +72,7 @@ class Table extends Component {
           </tr>
           </thead>
           <tbody>
-          { renderResultRows(cryptoCurrencies,removeCryptocurrencyFromUser,username) }
+          { renderResultRows(UserAddedCryptocurrencies,this.props.removeCryptocurrencyFromUser,username) }
           </tbody>
         </table>
       </div>

@@ -21,17 +21,19 @@ class AddCryptocurrencyContainer extends React.Component {
 
     let unAddedCryptocurrencies = getUnaddedCryptocurrency(userCryptocurrencies);
 
+    console.log(unAddedCryptocurrencies);
+
     let input;
 
     return (
       <div>
-        <p>`you can add cryptocurrency ${unAddedCryptocurrencies}`</p>
+        <p>you can add cryptocurrency [ {unAddedCryptocurrencies} ]</p>
         <form onSubmit={e => {
           e.preventDefault();
           if (!input.value.trim()) {
             return;
           }
-          props.addCryptocurrencyToUser(username,input.value);
+          this.props.addCryptocurrencyToUser(username,input.value);
           input.value = '';
         }}>
           <input ref={node => input = node} />

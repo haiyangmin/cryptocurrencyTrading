@@ -25,17 +25,17 @@ export const appReducer = (state = initialState, action) => {
 
     case FETCHING_CRYPTOCURRENCY_SUCCESS:
     console.log(action.payload.cryptocurrencies);
-       return {
-          cryptocurrencies: action.payload.cryptocurrencies,
-          fetchingCryptocurrencies: false,
-          error: false,
-        };
+      //  return {
+      //     cryptocurrencies: action.payload.cryptocurrencies,
+      //     fetchingCryptocurrencies: false,
+      //     error: false,
+      //   };
 
-      // return Object.assign({}, state, {
-      //   cryptocurrencies: action.payload.cryptocurrencies,
-      //   fetchingCryptocurrencies: false,
-      //   error: false,
-      // });
+      return Object.assign({}, state, {
+        cryptocurrencies: action.payload.cryptocurrencies,
+        fetchingCryptocurrencies: false,
+        error: false,
+      });
 
     case FETCHING_CRYPTOCURRENCY_FAILURE:
       return Object.assign({}, state, {
