@@ -19,29 +19,22 @@ const initialState = {
 export const appReducer = (state = initialState, action) => {
   switch (action.type) {
     case START_FETCHING_CRYPTOCURRENCY:
-      return Object.assign({}, state, {
+      return {...state,
         fetchingCryptocurrencies: true,
-      });
+      };
 
     case FETCHING_CRYPTOCURRENCY_SUCCESS:
-    console.log(action.payload.cryptocurrencies);
-      //  return {
-      //     cryptocurrencies: action.payload.cryptocurrencies,
-      //     fetchingCryptocurrencies: false,
-      //     error: false,
-      //   };
-
-      return Object.assign({}, state, {
+      return {...state,
         cryptocurrencies: action.payload.cryptocurrencies,
         fetchingCryptocurrencies: false,
         error: false,
-      });
+      };
 
     case FETCHING_CRYPTOCURRENCY_FAILURE:
-      return Object.assign({}, state, {
+      return {...state,
         fetchingCryptocurrencies: false,
         error: 'Unable to fetch cryptocurrency',
-      });
+      };
 
     default:
       return state;
@@ -50,7 +43,7 @@ export const appReducer = (state = initialState, action) => {
 
 
 const initialUserState = {
-  fetchingUser: false,
+  fetchingUser: true,
   authenticated: false,
   error: null,
   _id: null,

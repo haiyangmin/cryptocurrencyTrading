@@ -87,17 +87,6 @@ class CryptocurrencyDisplay extends Component {
       );
     }
 
-    function getCryptocurrencyDataByUser(cryptocurrencies,userCryptocurrencies){
-      let userCryptocurrenciesData = [];
-      userCryptocurrencies.forEach((_) => {
-        userCryptocurrenciesData.push(cryptocurrencies[_]);
-      });
-      userCryptocurrenciesData.forEach((item) => {
-        item.price = item.price.price + item.price.priceUnit;
-      });
-      return userCryptocurrenciesData;
-    }
-
     if (fetchingCryptocurrencies || fetchingUser) {
       return (
         <div className={styles.loadingWrapper}>Loading...</div>
@@ -108,6 +97,23 @@ class CryptocurrencyDisplay extends Component {
       return (
         <div className={styles.loadingWrapper}>Please wait...</div>
       );
+    }
+
+    if (!fetchingUser && !authenticated) {
+      return (
+        <div className={styles.loadingWrapper}>Please sign in...</div>
+      );
+    }
+
+    function getCryptocurrencyDataByUser(cryptocurrencies,userCryptocurrencies){
+      let userCryptocurrenciesData = [];
+      userCryptocurrencies.forEach((_) => {
+        userCryptocurrenciesData.push(cryptocurrencies[_]);
+      });
+      userCryptocurrenciesData.forEach((item) => {
+        item.price = item.price.price + item.price.priceUnit;
+      });
+      return userCryptocurrenciesData;
     }
 
     if ((!fetchingCryptocurrencies || !updatingUserCryptocurrecy) && authenticated) {
