@@ -55,15 +55,17 @@ const app = express();
 // apply express configs
 require('./backend/express')(app, serverConfigs);
 
-fetchAllCryptocurrencies('EUR')
-.then(
-  (data) => {
-    createCryptocurrency(transformFetchedCryptocurrencies(data)).then(
-      (result) => { console.log(result);},
-      (error) => { console.log(error);},
-    );},
-  (error) => console.log(error)
-);
+setInterval(function() {
+  fetchAllCryptocurrencies('EUR')
+    .then(
+      (data) => {
+        createCryptocurrency(transformFetchedCryptocurrencies(data)).then(
+          (result) => { console.log(result);},
+          (error) => { console.log(error);},
+        );},
+      (error) => console.log(error)
+    );
+}, 600000);
 
 
 // fire up the server
