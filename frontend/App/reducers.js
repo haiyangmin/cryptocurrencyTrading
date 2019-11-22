@@ -69,28 +69,13 @@ const initialUserState = {
 export const userReducer = (state = initialUserState, action) => {
   switch (action.type) {
     case START_FETCHING_USER:
-      return Object.assign({}, state, {
+      return {...state,
         fetchingUser: true,
         authenticated: false,
-      });
+      };
 
     case FETCHING_USER_SUCCESS:
-      // const {
-      //   _id,
-      //   name,
-      //   username,
-      //   avatarUrl,
-      //   email,
-      //   githubBio,
-      //   githubUrl,
-      //   githubLocation,
-      //   role,
-      //   userCryptocurrencies,
-      //   updatingUserCryptocurrecy,
-      // } = action.payload;
-
-      return Object.assign({}, state, {
-        fetchingUser: false,
+      return {...state,fetchingUser: false,
         authenticated: true,
         error: null,
         _id: action.payload._id,
@@ -104,31 +89,31 @@ export const userReducer = (state = initialUserState, action) => {
         role: action.payload.role,
         userCryptocurrencies: action.payload.cryptocurrencies,
         updatingUserCryptocurrecy: false,
-      });
+      };
 
     case FETCHING_USER_FAILURE:
-      return Object.assign({}, initialUserState, {
+      return {...state,
         fetchingUser: false,
         authenticated: false,
         error: 'Unable to fetch user!',
-      });
+      };
 
     case UPDATE_USER_CRYPTOCURRENCY:
-      return Object.assign({}, state, {
+      return {...state,
         updatingUserCryptocurrecy: true,
-      });
+      };
 
     case UPDATE_USER_CRYPTOCURRENCY_SUCCESS:
-      return Object.assign({}, state, {
+      return {...state,
         userCryptocurrencies: action.payload,
         updatingUserCryptocurrecy: false,
-      });
+      };
 
     case UPDATE_USER_CRYPTOCURRENCY_FAILURE:
-      return Object.assign({}, state, {
+      return {...state,
         updatingUserCryptocurrecy: false,
         error: 'Unable to update user cryptocurrency!',
-      });
+      };
 
     default:
       return state;
