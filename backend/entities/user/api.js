@@ -37,7 +37,7 @@ const userAPI = (app) => {
 
 
   // get user crytocurrency
-  app.get('/api/user/crytocurrency/:username', (req, res) => {
+  app.get('/api/user/cryptocurrencies/:username', (req, res) => {
     getUserByName(req.params.username).then(
       result => {
         res.send(result.cryptocurrencies);
@@ -48,25 +48,27 @@ const userAPI = (app) => {
     );
   });
 
-  // add new cryptocurrency
-  app.post('/api/user/add/crytocurrencies/:username', (req, res) => {
+  // add user cryptocurrency
+  app.put('/api/user/:username', (req, res) => {
     addCryptocurrenciesToUser(req.params.username, req.body.cryptocurrencies.split(',')).then(
       (result) => {
         res.send(result.cryptocurrencies);
       },
       (error) => {
+        console.log(error);
         res.send({ newCryptocurrencyAdded: false });
       }
     );
   });
 
   // remove cryptocurrency
-  app.post('/api/user/remove/crytocurrencies/:username', (req, res) => {
+  app.put('/api/user/:username', (req, res) => {
     removeCryptocurrenciesFromUser(req.params.username, req.body.cryptocurrencies.split(',')).then(
       (result) => {
         res.send(result.cryptocurrencies);
       },
       (error) => {
+        console.log(error);
         res.send({ cryptocurrencyRemoved: false });
       }
     );

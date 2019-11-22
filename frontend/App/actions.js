@@ -12,9 +12,9 @@ import {
 
 import {
   fetchUser,
-  fetchLatestCryptocurrency,
-  userAddCryptocurrency,
-  userRemoveCryptocurrency,
+  fetchLatestCryptocurrencies,
+  addCryptocurrenciesToUser,
+  removeCryptocurrenciesFromUser,
 } from './api';
 
 
@@ -36,7 +36,7 @@ export const getLatestCryptocurrency = () => {
   return (dispatch, getState) => {
     dispatch({ type: START_FETCHING_CRYPTOCURRENCY });
 
-    fetchLatestCryptocurrency().then(
+    fetchLatestCryptocurrencies().then(
       data => dispatch({ type: FETCHING_CRYPTOCURRENCY_SUCCESS, payload: data.data }),
       error => dispatch({ type: FETCHING_CRYPTOCURRENCY_FAILURE })
     );
@@ -48,7 +48,7 @@ export const addCryptocurrencyToUser = (username,cryptocurrencies) => {
   return (dispatch, getState) => {
     dispatch({ type: UPDATE_USER_CRYPTOCURRENCY });
 
-    userAddCryptocurrency(username,cryptocurrencies).then(
+    addCryptocurrenciesToUser(username,cryptocurrencies).then(
       data => dispatch({ type: UPDATE_USER_CRYPTOCURRENCY_SUCCESS, payload: data.data }),
       error => dispatch({ type: UPDATE_USER_CRYPTOCURRENCY_FAILURE})
     );
@@ -59,7 +59,7 @@ export const removeCryptocurrencyFromUser = (username,cryptocurrencies) => {
   return (dispatch, getState) => {
     dispatch({ type: UPDATE_USER_CRYPTOCURRENCY });
 
-    userRemoveCryptocurrency(username,cryptocurrencies).then(
+    removeCryptocurrenciesFromUser(username,cryptocurrencies).then(
       data => dispatch({ type: UPDATE_USER_CRYPTOCURRENCY_SUCCESS, payload: data.data }),
       error => dispatch({ type: UPDATE_USER_CRYPTOCURRENCY_FAILURE})
     );

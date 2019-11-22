@@ -4,18 +4,18 @@ export const fetchUser = () => {
   return axios.get('/api/user/getUser');
 };
 
-export const fetchLatestCryptocurrency = () => {
-  return axios.get('/api/cryptocurrency/latest');
+export const fetchLatestCryptocurrencies = () => {
+  return axios.get('/api/cryptocurrencies/latest');
 };
 
-export const fetchUserCryptocurrency = (username) => {
-  return axios.get(`/api/user/crytocurrencies/${username}`);
+export const fetchUserCryptocurrencies = (username) => {
+  return axios.get(`/api/user/cryptocurrencies/${username}`);
 };
 
-export const userAddCryptocurrency = (username,cryptocurrencies) => {
-  return axios.post(`/api/user/add/crytocurrencies/${username}`,{cryptocurrencies:cryptocurrencies});
+export const addCryptocurrenciesToUser = (username,cryptocurrencies) => {
+  return axios.put(`/api/user/${username}`,{cryptocurrencies:cryptocurrencies});
 };
 
-export const userRemoveCryptocurrency = (username,cryptocurrencies) => {
-  return axios.post(`/api/user/remove/crytocurrencies/${username}`,{cryptocurrencies:cryptocurrencies});
+export const removeCryptocurrenciesFromUser = (username,cryptocurrencies) => {
+  return axios.put(`/api/user/${username}`,{cryptocurrencies:cryptocurrencies});
 };

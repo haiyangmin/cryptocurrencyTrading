@@ -8,8 +8,8 @@ const cryptocurrencyMap = {
   BCH: 'bitcoinCash',
   ETH: 'ethereum',
   LTC: 'litecoin',
-  XRP: 'xrp'
-}
+  XRP: 'xrp',
+};
 
 class Table extends Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class Table extends Component {
   }
 
   render() {
-    console.log(this.props)
+    console.log(this.props);
     const {
       removeCryptocurrencyFromUser,
       cryptoCurrencies,
@@ -52,7 +52,7 @@ class Table extends Component {
     }
 
     function getUserAddedCryptocurrencies(userCryptocurrencies,cryptocurrencies) {
-      return cryptocurrencies.filter((_) => userCryptocurrencies.includes(cryptocurrencyMap[_.name]))
+      return cryptocurrencies.filter((_) => userCryptocurrencies.includes(cryptocurrencyMap[_.name]));
     }
 
     const UserAddedCryptocurrencies = getUserAddedCryptocurrencies(userCryptocurrencies,cryptoCurrencies);
