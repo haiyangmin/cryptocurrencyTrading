@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles';
-import { addCryptocurrencyToUser } from '../../../App/actions';
+import { updateUserCryptocurrencies } from '../../../App/actions';
 
 class AddCryptocurrencyContainer extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  getUnaddedCryptocurrency(userCryptocurrencies) {
+    return ['bitcoin','bitcoinCash','ethereum','litecoin','xrp'].filter((_) => !userCryptocurrencies.includes(_)).toString();
   }
 
 
@@ -15,11 +19,8 @@ class AddCryptocurrencyContainer extends React.Component {
       userCryptocurrencies,
     } = this.props.user;
 
-    function getUnaddedCryptocurrency(userCryptocurrencies) {
-      return ['bitcoin','bitcoinCash','ethereum','litecoin','xrp'].filter((_) => !userCryptocurrencies.includes(_)).toString();
-    }
 
-    let unAddedCryptocurrencies = getUnaddedCryptocurrency(userCryptocurrencies);
+    const unAddedCryptocurrencies = this.getUnaddedCryptocurrency(userCryptocurrencies);
 
     console.log(unAddedCryptocurrencies);
 
@@ -33,7 +34,7 @@ class AddCryptocurrencyContainer extends React.Component {
           if (!input.value.trim()) {
             return;
           }
-          this.props.addCryptocurrencyToUser(username,input.value);
+          this.props.updateUserCryptocurrencies(username,input.value);
           input.value = '';
         }}>
           <input ref={node => input = node} />
@@ -51,6 +52,6 @@ export default connect(
     user: state.user,
   }; },
   (dispatch) => { return {
-    addCryptocurrencyToUser: (username,cryptocurrencies) => { dispatch(addCryptocurrencyToUser(username,cryptocurrencies)); },
+    updateUserCryptocurrencies: (username,cryptocurrencies) => { dispatch(updateUserCryptocurrencies(username,cryptocurrencies)); },
   };}
 )(AddCryptocurrencyContainer);

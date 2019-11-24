@@ -26,35 +26,20 @@ const getUserByName = (username) => {
 };
 
 
-const addCryptocurrenciesToUser = (username,cryptocurrencies) => {
+const updateUserCryptocurrencies = (username,cryptocurrencies) => {
   return new Promise((resolve, reject) => {
     User.findOne({ username }, (error, user) => {
       if (error) { console.log(error); reject(error); }
       else if (!user) reject(null);
       else if (user && Array.isArray(cryptocurrencies)) {
-        user.cryptocurrencies = user.cryptocurrencies.concat(cryptocurrencies.filter((_) => user.cryptocurrencies.indexOf(_) < 0));
-        user.save((error) => {
-          if (error) { console.log(error); reject(error); }
-          else { resolve(user); }
-        });
-      }
-    });
-  });
-};
-
-const removeCryptocurrenciesFromUser = (username,cryptocurrencies) => {
-  return new Promise((resolve, reject) => {
-    User.findOne({ username }, (error, user) => {
-      if (error) { console.log(error); reject(error); }
-      else if (!user) reject(null);
-      else if (user && Array.isArray(cryptocurrencies)) {
-        let cryptocurrencyArray = [];
-        user.cryptocurrencies.forEach((_) => {
-          if (!cryptocurrencies.includes(_)) {
-            cryptocurrencyArray.push(_);
+        cryptocurrencies.forEach((_) => {
+          if (!user.cryptocurrencies.includes(_)) {
+            user.cryptocurrencies = user.cryptocurrencies.concat([_]);
+          }
+          else {
+            user.cryptocurrencies = user.cryptocurrencies.filter((item) => item !== _);
           }
         });
-        user.cryptocurrencies = cryptocurrencyArray;
         user.save((error) => {
           if (error) { console.log(error); reject(error); }
           else { resolve(user); }
@@ -82,14 +67,14 @@ const signInViaGithub = (gitProfile) => {
           user.username = gitProfile.username;
           user.avatarUrl = gitProfile._json.avatar_url;
           user.email = email;
-          user.github.id = gitProfile._json.id,
-          user.github.url = gitProfile._json.html_url,
-          user.github.company = gitProfile._json.company,
-          user.github.location = gitProfile._json.location,
-          user.github.hireable = gitProfile._json.hireable,
-          user.github.bio = gitProfile._json.bio,
-          user.github.followers = gitProfile._json.followers,
-          user.github.following = gitProfile._json.following,
+          user.github.id = gitProfile._json.id;
+          user.github.url = gitProfile._json.html_url;
+          user.github.company = gitProfile._json.company;
+          user.github.location = gitProfile._json.location;
+          user.github.hireable = gitProfile._json.hireable;
+          user.github.bio = gitProfile._json.bio;
+          user.github.followers = gitProfile._json.followers;
+          user.github.following = gitProfile._json.following;
 
           // save the info and resolve the user doc
           user.save((error) => {
@@ -136,6 +121,5 @@ module.exports = {
   signInViaGithub,
   getUser,
   getUserByName,
-  addCryptocurrenciesToUser,
-  removeCryptocurrenciesFromUser,
+  updateUserCryptocurrencies,
 };

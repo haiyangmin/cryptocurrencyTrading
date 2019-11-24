@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles';
-import { removeCryptocurrencyFromUser } from '../../../App/actions';
+import { updateUserCryptocurrencies } from '../../../App/actions';
 
 const cryptocurrencyMap = {
   BTC: 'bitcoin',
@@ -16,46 +16,51 @@ class Table extends Component {
     super(props);
   }
 
+  getCryptocurrencyDataByUser(cryptocurrencies,userCryptocurrencies){
+    let userCryptocurrenciesData = [];
+    userCryptocurrencies.forEach((_) => {
+      if (cryptocurrencies[_]){
+        userCryptocurrenciesData.push(cryptocurrencies[_]);
+      }
+    });
+    userCryptocurrenciesData.forEach((item) => {
+      item.price = `${item.price.price} ${item.price.priceUnit}`;
+    });
+    return userCryptocurrenciesData;
+  }
+
+  renderResultRows(data, updateUserCryptocurrencies,username) {
+    return data.map((data, index) => {
+      return (
+        <tr className={ styles.tr } key={ index }>
+          <td className={ styles.td }>{ data.name }</td>
+          <td>{ data.price }</td>
+          <td>{ data.marketCap }</td>
+          <td>{ data.volume }</td>
+          <td>{ data.circulatingSupply }</td>
+          <td>{ data.allTimeHigh }</td>
+          <td>
+            <button onClick={e => {
+              e.preventDefault();
+              updateUserCryptocurrencies(username,cryptocurrencyMap[data.name]);
+            }}>
+              Remove
+            </button>
+          </td>
+        </tr>
+      );
+    });
+  }
+
   render() {
     console.log(this.props);
-    const {
-      removeCryptocurrencyFromUser,
-      cryptoCurrencies,
-    } = this.props;
 
     const {
       username,
       userCryptocurrencies,
     } = this.props.user;
 
-    function renderResultRows(data, removeCryptocurrencyFromUser,username) {
-      return data.map((data, index) => {
-        return (
-          <tr className={ styles.tr } key={ index }>
-            <td className={ styles.td }>{ data.name }</td>
-            <td>{ data.price }</td>
-            <td>{ data.marketCap }</td>
-            <td>{ data.volume }</td>
-            <td>{ data.circulatingSupply }</td>
-            <td>{ data.allTimeHigh }</td>
-            <td>
-              <button onClick={e => {
-          e.preventDefault();
-          removeCryptocurrencyFromUser(username,cryptocurrencyMap[data.name]);
-        }}>
-                Remove
-              </button>
-            </td>
-          </tr>
-        );
-      });
-    }
-
-    function getUserAddedCryptocurrencies(userCryptocurrencies,cryptocurrencies) {
-      return cryptocurrencies.filter((_) => userCryptocurrencies.includes(cryptocurrencyMap[_.name]));
-    }
-
-    const UserAddedCryptocurrencies = getUserAddedCryptocurrencies(userCryptocurrencies,cryptoCurrencies);
+    const userCryptocurrenciesData = this.getCryptocurrencyDataByUser(this.props.app.cryptocurrencies,userCryptocurrencies);
 
     return (
       <div>
@@ -72,7 +77,7 @@ class Table extends Component {
           </tr>
           </thead>
           <tbody>
-          { renderResultRows(UserAddedCryptocurrencies,this.props.removeCryptocurrencyFromUser,username) }
+          { this.renderResultRows(userCryptocurrenciesData,this.props.updateUserCryptocurrencies,username) }
           </tbody>
         </table>
       </div>
@@ -82,10 +87,11 @@ class Table extends Component {
 
 export default connect(
   (state) => { return {
+    app: state.app,
     user: state.user,
   }; },
   (dispatch) => { return {
-    removeCryptocurrencyFromUser: (username,cryptocurrencies) => { dispatch(removeCryptocurrencyFromUser(username,cryptocurrencies)); },
+    updateUserCryptocurrencies: (username,cryptocurrencies) => { dispatch(updateUserCryptocurrencies(username,cryptocurrencies)); },
   }; }
 )(Table);
 

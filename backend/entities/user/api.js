@@ -1,7 +1,6 @@
 const passport = require('passport');
 const getUserByName = require('./controller').getUserByName;
-const addCryptocurrenciesToUser = require('./controller').addCryptocurrenciesToUser;
-const removeCryptocurrenciesFromUser = require('./controller').removeCryptocurrenciesFromUser;
+const updateUserCryptocurrencies = require('./controller').updateUserCryptocurrencies;
 
 /**
  * user apis
@@ -37,7 +36,7 @@ const userAPI = (app) => {
 
 
   // get user crytocurrency
-  app.get('/api/user/cryptocurrencies/:username', (req, res) => {
+  app.get('/api/user/:username/:cryptocurrencies', (req, res) => {
     getUserByName(req.params.username).then(
       result => {
         res.send(result.cryptocurrencies);
@@ -48,28 +47,15 @@ const userAPI = (app) => {
     );
   });
 
-  // add user cryptocurrency
-  app.put('/api/user/:username', (req, res) => {
-    addCryptocurrenciesToUser(req.params.username, req.body.cryptocurrencies.split(',')).then(
+  // update user cryptocurrency
+  app.put('/api/user/:username/:cryptocurrencies', (req, res) => {
+    updateUserCryptocurrencies(req.params.username, req.body.cryptocurrencies.split(',')).then(
       (result) => {
         res.send(result.cryptocurrencies);
       },
       (error) => {
         console.log(error);
-        res.send({ newCryptocurrencyAdded: false });
-      }
-    );
-  });
-
-  // remove cryptocurrency
-  app.put('/api/user/:username', (req, res) => {
-    removeCryptocurrenciesFromUser(req.params.username, req.body.cryptocurrencies.split(',')).then(
-      (result) => {
-        res.send(result.cryptocurrencies);
-      },
-      (error) => {
-        console.log(error);
-        res.send({ cryptocurrencyRemoved: false });
+        res.send({ userCryptocurrenciesUpdated: false });
       }
     );
   });

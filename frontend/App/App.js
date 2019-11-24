@@ -11,15 +11,9 @@ import { getUser } from './actions';
 class AppContainer extends Component {
   componentDidMount() {
     // check for authenticated user
+
+    console.log(this.props);
     this.props.getUser();
-
-    this.interval = setInterval(() => {
-      this.props.getUser();
-    }, 300000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval);
   }
 
   render() {

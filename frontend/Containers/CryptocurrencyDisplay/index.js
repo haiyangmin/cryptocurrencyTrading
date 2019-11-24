@@ -58,21 +58,26 @@ class CryptocurrencyDisplay extends Component {
   componentDidMount() {
     // get latest cryptocurrency price
     this.props.getLatestCryptocurrency();
+
+    this.interval = setInterval(() => {
+      this.props.getLatestCryptocurrency();
+    }, 300000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   render() {
 
     console.log(this.props);
-    console.log(this.prop);
 
     const {
-      cryptocurrencies,
       fetchingCryptocurrencies,
       appError,
     } = this.props.app;
 
     const {
-      userCryptocurrencies,
       fetchingUser,
       authenticated,
       updatingUserCryptocurrecy,
@@ -105,26 +110,11 @@ class CryptocurrencyDisplay extends Component {
       );
     }
 
-    function getCryptocurrencyDataByUser(cryptocurrencies,userCryptocurrencies){
-      let userCryptocurrenciesData = [];
-      userCryptocurrencies.forEach((_) => {
-        userCryptocurrenciesData.push(cryptocurrencies[_]);
-      });
-      userCryptocurrenciesData.forEach((item) => {
-        item.price = item.price.price + item.price.priceUnit;
-      });
-      return userCryptocurrenciesData;
-    }
-
     if ((!fetchingCryptocurrencies || !updatingUserCryptocurrecy) && authenticated) {
-      const cryptocurrencies = getCryptocurrencyDataByUser(this.props.app.cryptocurrencies,userCryptocurrencies);
       return (
         <div className={classnames(appLayout.constraintWidth, styles.contentArea)}>
           <div className={appLayout.primaryContent}>
-            <Table
-              cryptoCurrencies={cryptocurrencies}
-              // cryptoCurrencies={mockData}
-            />
+            <Table/>
             <AddCryptocurrencyContainer />
           </div>
         </div>

@@ -9,13 +9,9 @@ export const fetchLatestCryptocurrencies = () => {
 };
 
 export const fetchUserCryptocurrencies = (username) => {
-  return axios.get(`/api/user/cryptocurrencies/${username}`);
+  return axios.get(`/api/user/${username}/cryptocurrencies`);
 };
 
-export const addCryptocurrenciesToUser = (username,cryptocurrencies) => {
-  return axios.put(`/api/user/${username}`,{cryptocurrencies:cryptocurrencies});
-};
-
-export const removeCryptocurrenciesFromUser = (username,cryptocurrencies) => {
-  return axios.put(`/api/user/${username}`,{cryptocurrencies:cryptocurrencies});
+export const updateCryptocurrenciesByUser = (username,cryptocurrencies) => {
+  return axios.put(`/api/user/${username}/cryptocurrencies`,{cryptocurrencies:cryptocurrencies});
 };
