@@ -1,5 +1,13 @@
 const Cryptocurrency = require('./model');
 
+const cryptocurrencyMap = {
+  BTC: 'bitcoin',
+  BCH: 'bitcoinCash',
+  ETH: 'ethereum',
+  LTC: 'litecoin',
+  XRP: 'xrp',
+};
+
 const getAllCryptocurrencyRecord = () => {
   return new Promise((resolve, reject) => {
     Cryptocurrency
@@ -27,73 +35,34 @@ const getLatestCryptocurrencyRecord = () => {
   });
 };
 
+const createCryptocurrencies = (cryptocurrencies = {}) => {
+  let returnObject = {};
+  let cryptocurrenciesData = Object.values(cryptocurrencies).map((value) => {
+    return {
+      name: value.name,
+      date: new Date(),
+      price: {
+        price: value.price,
+        priceUnit: value.priceUnit,
+      },
+      marketCap: value.marketCap,
+      volume: value.volume,
+      circulatingSupply: value.circulatingSupply,
+      allTimeHigh: value.allTimeHigh,
+    };
+  });
+  Object.keys(cryptocurrencies).forEach((name,index) => {
+    returnObject[cryptocurrencyMap[name]] = cryptocurrenciesData[index];
+  });
+  return returnObject;
+};
+
 const createCryptocurrency = (cryptocurrency) => {
   return new Promise((resolve, reject) => {
     const newCryptocurrency = new Cryptocurrency({
       cryptocurrency_id: cryptocurrency.id,
       date: new Date(),
-      cryptocurrencies: {
-        bitcoin: {
-          name: cryptocurrency.bitcoin.name,
-          date: new Date(),
-          price: {
-            price: cryptocurrency.bitcoin.price,
-            priceUnit: cryptocurrency.bitcoin.priceUnit,
-          },
-          marketCap: cryptocurrency.bitcoin.marketCap,
-          volume: cryptocurrency.bitcoin.volume,
-          circulatingSupply: cryptocurrency.bitcoin.circulatingSupply,
-          allTimeHigh: cryptocurrency.bitcoin.allTimeHigh,
-        },
-        bitcoinCash: {
-          name: cryptocurrency.bitcoinCash.name,
-          date: new Date(),
-          price: {
-            price: cryptocurrency.bitcoinCash.price,
-            priceUnit: cryptocurrency.bitcoinCash.priceUnit,
-          },
-          marketCap: cryptocurrency.bitcoinCash.marketCap,
-          volume: cryptocurrency.bitcoinCash.volume,
-          circulatingSupply: cryptocurrency.bitcoinCash.circulatingSupply,
-          allTimeHigh: cryptocurrency.bitcoinCash.allTimeHigh,
-        },
-        ethereum: {
-          name: cryptocurrency.ethereum.name,
-          date: new Date(),
-          price: {
-            price: cryptocurrency.ethereum.price,
-            priceUnit: cryptocurrency.ethereum.priceUnit,
-          },
-          marketCap: cryptocurrency.ethereum.marketCap,
-          volume: cryptocurrency.ethereum.volume,
-          circulatingSupply: cryptocurrency.ethereum.circulatingSupply,
-          allTimeHigh: cryptocurrency.ethereum.allTimeHigh,
-        },
-        litecoin: {
-          name: cryptocurrency.litecoin.name,
-          date: new Date(),
-          price: {
-            price: cryptocurrency.litecoin.price,
-            priceUnit: cryptocurrency.litecoin.priceUnit,
-          },
-          marketCap: cryptocurrency.litecoin.marketCap,
-          volume: cryptocurrency.litecoin.volume,
-          circulatingSupply: cryptocurrency.litecoin.circulatingSupply,
-          allTimeHigh: cryptocurrency.litecoin.allTimeHigh,
-        },
-        xrp: {
-          name: cryptocurrency.xrp.name,
-          date: new Date(),
-          price: {
-            price: cryptocurrency.xrp.price,
-            priceUnit: cryptocurrency.xrp.priceUnit,
-          },
-          marketCap: cryptocurrency.xrp.marketCap,
-          volume: cryptocurrency.xrp.volume,
-          circulatingSupply: cryptocurrency.xrp.circulatingSupply,
-          allTimeHigh: cryptocurrency.xrp.allTimeHigh,
-        },
-      },
+      cryptocurrencies: createCryptocurrencies(cryptocurrency.cryptocurrencies),
     });
 
     newCryptocurrency.save((error) => {

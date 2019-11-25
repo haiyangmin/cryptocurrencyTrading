@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles';
 import { updateUserCryptocurrencies } from '../../../App/actions';
+const cryptocurrencyConfig = require('../../../../config/cryptocurrencyConfig');
 
 class AddCryptocurrencyContainer extends React.Component {
   constructor(props) {
@@ -9,7 +10,7 @@ class AddCryptocurrencyContainer extends React.Component {
   }
 
   getUnaddedCryptocurrency(userCryptocurrencies) {
-    return ['bitcoin','bitcoinCash','ethereum','litecoin','xrp'].filter((_) => !userCryptocurrencies.includes(_)).toString();
+    return cryptocurrencyConfig.cryptocurrencies.filter((_) => !userCryptocurrencies.includes(_)).toString();
   }
 
 
