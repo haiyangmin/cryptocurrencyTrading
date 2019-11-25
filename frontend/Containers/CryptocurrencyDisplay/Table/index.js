@@ -17,14 +17,20 @@ class Table extends Component {
   }
 
   getCryptocurrencyDataByUser(cryptocurrencies,userCryptocurrencies){
+    const clonedCryptocurrencies = {...cryptocurrencies};
     let userCryptocurrenciesData = [];
     userCryptocurrencies.forEach((_) => {
-      if (cryptocurrencies[_]){
-        userCryptocurrenciesData.push(cryptocurrencies[_]);
+      if (clonedCryptocurrencies[_]){
+        userCryptocurrenciesData.push(clonedCryptocurrencies[_]);
       }
     });
     userCryptocurrenciesData.forEach((item) => {
-      item.price = `${item.price.price} ${item.price.priceUnit}`;
+      if (item.price instanceof Object) {
+        item.price = `${item.price.price} ${item.price.priceUnit}`;
+      }
+      else {
+        return;
+      }
     });
     return userCryptocurrenciesData;
   }
