@@ -1,5 +1,5 @@
 # cryptocurrencyTrading
-a simple web interface to display the latest data of different cryptocurrency.
+a simple web interface to display the price of different cryptocurrency.
 
 
 application built with the following technologies:
@@ -13,14 +13,13 @@ application built with the following technologies:
 Demo app is deployed on Heroku. Please check it out: 
 
 ### Application Features
+* User can Sign in via github,the default cryptocurrencies for every user are ("BTC","BCH","ETH","LTC","XRP").
 * User can add cryptocurrencies to database via web form using their codes ("BTC",
   "ETH", "LTC" etc.).
 * User can see the list of added currencies together with their EUR prices.
 * User can remove the cryptocurrency codes that have been added.
-* Backend fetches prices from the API service and stores them in database.
-*  Frontend update the prices from backend every 5 minutes when site is open in
-  browser.
-* User can Sign in via github.
+* Backend fetches prices from the API service and stores them in database,backend fetch price from third party API every 10 minutes.
+* Frontend update the prices from backend every 5 minutes when site is open in browser.
 
 ## Run the app locally
 
