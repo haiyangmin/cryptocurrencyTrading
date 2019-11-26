@@ -11,21 +11,12 @@ const fetchCryptocurrency = (cryptocurrency,priceUnit) => {
 
 const cryptocurrencyConfig = require('../config/cryptocurrencyConfig');
 
-const cryptocurrencyMap = {
-  BTC: 'bitcoin',
-  BCH: 'bitcoinCash',
-  ETH: 'ethereum',
-  LTC: 'litecoin',
-  XRP: 'xrp',
-};
-
 const fetchAllCryptocurrencies = (priceUnit = 'EUR') => {
   return axios.all(cryptocurrencyConfig.cryptocurrencies.map((_) => fetchCryptocurrency(_,priceUnit)));
 };
 
 const transformFetchedCryptocurrencies = (results = [],priceUnit = 'EUR') => {
-  let returnObject = {};
-  let transformedData = results.map((_,index) => {
+  return results.map((_, index) => {
     return {
       name: cryptocurrencyConfig.cryptocurrencies[index],
       price: _.data.EUR,
@@ -36,14 +27,9 @@ const transformFetchedCryptocurrencies = (results = [],priceUnit = 'EUR') => {
       allTimeHigh: 1000,
     };
   });
-  cryptocurrencyConfig.cryptocurrencies.forEach((_,index) => {
-    returnObject[cryptocurrencyMap[_]] = transformedData[index];
-  });
-  return returnObject;
 };
 
 module.exports = {
-  fetchCryptocurrency,
   fetchAllCryptocurrencies,
   transformFetchedCryptocurrencies,
 };

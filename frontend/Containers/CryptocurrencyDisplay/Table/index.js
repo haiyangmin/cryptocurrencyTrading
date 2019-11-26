@@ -3,26 +3,20 @@ import { connect } from 'react-redux';
 import styles from './styles';
 import { updateUserCryptocurrencies } from '../../../App/actions';
 
-const cryptocurrencyMap = {
-  BTC: 'bitcoin',
-  BCH: 'bitcoinCash',
-  ETH: 'ethereum',
-  LTC: 'litecoin',
-  XRP: 'xrp',
-};
-
 class Table extends Component {
   constructor(props) {
     super(props);
   }
 
   getCryptocurrencyDataByUser(cryptocurrencies,userCryptocurrencies){
-    const clonedCryptocurrencies = {...cryptocurrencies};
+    const clonedCryptocurrencies =  JSON.parse(JSON.stringify(cryptocurrencies));
     let userCryptocurrenciesData = [];
     userCryptocurrencies.forEach((_) => {
-      if (clonedCryptocurrencies[_]){
-        userCryptocurrenciesData.push(clonedCryptocurrencies[_]);
-      }
+      clonedCryptocurrencies.forEach((item,index) => {
+        if (_ === item.name) {
+          userCryptocurrenciesData.push(clonedCryptocurrencies[index]);
+        }
+      });
     });
     userCryptocurrenciesData.forEach((item) => {
       if (item.price instanceof Object) {
@@ -48,7 +42,7 @@ class Table extends Component {
           <td>
             <button onClick={e => {
               e.preventDefault();
-              updateUserCryptocurrencies(username,cryptocurrencyMap[data.name]);
+              updateUserCryptocurrencies(username,data.name);
             }}>
               Remove
             </button>

@@ -1,6 +1,6 @@
 
 const cryptocurrencyConfig = {
-  cryptocurrencies: ['bitcoin','bitcoinCash','ethereum','litecoin','xrp'],
+  cryptocurrencies: ['BTC','BCH','ETH','LTC','XRP'],
 };
 
 module.exports = cryptocurrencyConfig;

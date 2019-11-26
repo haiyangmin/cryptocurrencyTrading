@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const User = require('./model');
+const cryptocurrencyConfig = require('../../../config/cryptocurrencyConfig');
 
 const getUser = (user_id) => {
   return new Promise((resolve, reject) => {
@@ -91,7 +92,7 @@ const signInViaGithub = (gitProfile) => {
               avatarUrl: gitProfile._json.avatar_url,
               email: email,
               role: 'user',
-              cryptocurrencies: ['bitcoin','bitcoinCash','ethereum','litecoin','xrp'],
+              cryptocurrencies: cryptocurrencyConfig.cryptocurrencies,
               github: {
                 id: gitProfile._json.id,
                 url: gitProfile._json.html_url,
