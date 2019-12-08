@@ -38,7 +38,7 @@ const passportConfig = (app) => {
     (accessToken, refreshToken, gitProfile, done) => {
       signInViaGithub(gitProfile).then(
         (user) => { console.log('got the user'); done(null, user); },
-        (error) => { console.log('something error occurs'); done(error); }
+        (error) => { console.log('something Error occurs'); done(error); }
       );
     }
   ));

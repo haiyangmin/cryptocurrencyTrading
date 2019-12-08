@@ -1,25 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, browserHistory, IndexRoute } from 'react-router';
-import { Provider } from 'react-redux';
-import styles from './styles';
+import { ThemeProvider } from '@material-ui/styles';
+import { CssBaseline } from '@material-ui/core';
 
-// app store
-import appStore from './store';
+import Themes from 'Themes/index';
+import { UserProvider } from 'Context/UserContext';
 
-// app views
 import AppContainer from './App';
-import UserProfile from '../Views/UserProfile';
-import NotFound from '../Views/NotFound';
 
 ReactDOM.render(
-  <Provider store={ appStore }>
-    <Router history={ browserHistory }>
-      <Route path="/" component={ AppContainer }>
-        <Route path="user/:username" component={ UserProfile }/>
-        <Route path="*" component={ NotFound }/>
-      </Route>
-    </Router>
-  </Provider>,
+  <UserProvider>
+    <ThemeProvider theme={Themes.default}>
+      <CssBaseline />
+      <AppContainer />
+    </ThemeProvider>
+  </UserProvider>,
   document.getElementById('root')
 );

@@ -1,7 +1,22 @@
-import React, { Component } from 'react';
+import React from "react";
+import { Grid } from "@material-ui/core";
 import { connect } from 'react-redux';
 import styles from './styles';
 import { updateUserCryptocurrencies } from '../../../App/actions';
+
+export default function Table(props) {
+  return (
+    <>
+      <Grid container spacing={4}>
+        <Grid item xs={12}>
+          <Widget title="Cryptocurrency price" upperTitle noBodyPadding>
+            <Table data={props.table} />
+          </Widget>
+        </Grid>
+      </Grid>
+    </>
+  );
+}
 
 class Table extends Component {
   constructor(props) {

@@ -1,39 +1,72 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Helmet } from 'react-helmet';
-
-import Header from 'Containers/Header';
-import Footer from 'Components/Footer';
+import React from 'react';
 import CryptocurrencyDisplay from 'Containers/CryptocurrencyDisplay';
+import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
+import Error from 'Views/Error';
+import Login from 'Views/Login';
 
-import { getUser } from './actions';
+// Context
+import { useUserState } from '../Context/UserContext';
 
-class AppContainer extends Component {
-  componentDidMount() {
-    // check for authenticated user
+export default function AppContainer() {
+  // global
+  let { isAuthenticated } = useUserState();
 
-    console.log(this.props);
-    this.props.getUser();
+  return (
+    <HashRouter>
+      <Switch>
+        <Route exact path="/" render={() => <Redirect to="/app/dashboard" />} />
+        <Route
+          exact
+          path="/app"
+          render={() => <Redirect to="/app/dashboard" />}
+        />
+        <PrivateRoute path="/app" component={CryptocurrencyDisplay} />
+        <PublicRoute path="/login" component={Login} />
+        <Route component={Error} />
+      </Switch>
+    </HashRouter>
+  );
+
+
+  function PrivateRoute({ component, ...rest }) {
+    return (
+      <Route
+        {...rest}
+        render={props =>
+          isAuthenticated ? (
+            React.createElement(component, props)
+          ) : (
+            <Redirect
+              to={{
+                pathname: '/login',
+                state: {
+                  from: props.location,
+                },
+              }}
+            />
+          )
+        }
+      />
+    );
   }
 
-  render() {
-    console.log(this.props);
+  function PublicRoute({ component, ...rest }) {
     return (
-      <div>
-        <Helmet><title>Cryptocurrency Price</title></Helmet>
-        <Header />
-        <CryptocurrencyDisplay />
-        <Footer />
-      </div>
+      <Route
+        {...rest}
+        render={props =>
+          isAuthenticated ? (
+            <Redirect
+              to={{
+                pathname: '/',
+              }}
+            />
+          ) : (
+            React.createElement(component, props)
+          )
+        }
+      />
     );
   }
 }
 
-export default connect(
-  (state) => { return {
-    user: state.user,
-  }; },
-  (dispatch) => { return {
-    getUser: () => { dispatch(getUser()); },
-  }; }
-)(AppContainer);
